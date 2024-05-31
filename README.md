@@ -1,7 +1,15 @@
 
 a download wrapper with callback
 
+## Documentation
+
+Documentation are located [here](https://cupang-afk.github.io/cupang-downloader/)
+
 ## Install
+
+```
+pip install git+https://github.com/cupang-afk/cupang-downloader
+```
 
 ## Usage
 
