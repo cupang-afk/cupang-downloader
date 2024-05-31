@@ -14,10 +14,10 @@ pip install git+https://github.com/cupang-afk/cupang-downloader
 ## Usage
 
 ```python
-from cupang_downloader import CupangDownloader, DownloadJob
-from cupang_downloader.downloaders.wget_downloader import CurlDownloader
+from cupang_downloader import Downloader, DownloadJob
+from cupang_downloader.downloaders.curl_downloader import CurlDownloader
 
-d = CupangDownloader(CurlDownloader())
+d = Downloader(CurlDownloader())
 job = DownloadJob(url="https://link.testfile.org/bNYZFw", out="10MB.mp4") 
 
 d.dl(job=job)
