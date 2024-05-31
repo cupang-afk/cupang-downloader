@@ -12,6 +12,10 @@ root = Path(__file__).parent.parent.parent
 with mkdocs_gen_files.open("README.md", "w") as readme_file:
     readme_file.writelines((root / "README.md").read_text())
 
+# changelog
+with mkdocs_gen_files.open("CHANGELOG.md", "w") as readme_file:
+    readme_file.writelines((root / "CHANGELOG.md").read_text())
+
 # example
 example = root / "example"
 for path in sorted(example.rglob("*.py")):
