@@ -1,0 +1,62 @@
+[project]
+name = "cupang-downloader"
+version = "0.1.0"
+description = "A download wrapper with callback"
+authors = [{ name = "cupang-afk", email = "pixelview56@gmail.com" }]
+dependencies = ["amulet-runtime-final>=1.1.2", "certifi>=2024.2.2"]
+requires-python = ">=3.10"
+readme = "README.md"
+license = { text = "MIT" }
+
+[project.optional-dependencies]
+requests = ["requests>=2.32.2"]
+pycurl = ["pycurl>=7.45.3; sys_platform=='linux'"]
+
+[tool.pdm.dev-dependencies]
+docs = [
+    "mkdocs>=1.6.0",
+    "mkdocstrings[python]>=0.25.1",
+    "mkdocs-material>=9.5.25",
+    "mkdocs-gen-files>=0.5.0",
+    "mkdocs-literate-nav>=0.6.1",
+    "mkdocs-section-index>=0.3.9",
+    "mkdocs-callouts>=1.13.2",
+]
+
+[tool.pdm]
+distribution = false
+
+[tool.ruff]
+line-length = 119
+indent-width = 4
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["F", "E", "W", "N", "C90", "TD", "PTH", "N"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+
+[tool.git-cliff.git]
+# parse the commits based on https://www.conventionalcommits.org
+conventional_commits = true
+# filter out the commits that are not conventional
+filter_unconventional = true
+# process each line of a commit as an individual commit
+split_commits = false
+# regex for preprocessing the commit messages
+commit_preprocessors = [
+    # Replace issue numbers
+    { pattern = '\((\w+\s)?#([0-9]+)\)', replace = "([#${2}](<REPO>/issues/${2}))" },
+    # Check spelling of the commit with https://github.com/crate-ci/typos
+    # If the spelling is incorrect, it will be automatically fixed.
+    { pattern = '.*', replace_command = 'typos --write-changes -' },
+]

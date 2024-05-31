@@ -1,0 +1,75 @@
+site_name: CupangDownloader
+plugins:
+  - search
+  - autorefs
+  - callouts
+  - gen-files:
+      scripts:
+        - docs/scripts/gen_ref_pages.py
+        - docs/scripts/gen_pages.py
+  - literate-nav:
+      nav_file: SUMMARY.md
+  - section-index
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            annotations_path: brief
+            docstring_section_style: spacy
+            docstring_style: google
+            members_order: source
+            merge_init_into_class: True
+            separate_signature: true
+            show_bases: true
+            show_if_no_docstring: false
+            show_source: true
+            signature_crossrefs: true
+            show_symbol_type_heading: true
+            show_root_toc_entry: true
+            show_symbol_type_toc: true
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.extra
+  - nl2br
+  - admonition
+  - pymdownx.details
+  - def_list
+  - pymdownx.tasklist:
+
+theme: 
+  name: material
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default 
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+
+
+nav:
+  - README: README.md
+  - Example: example/
+  - Code Reference: reference/
