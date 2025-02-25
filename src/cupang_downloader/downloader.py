@@ -141,7 +141,8 @@ class Downloader:
             if isinstance(out, Path):
                 log.debug(f"out is {out}, cleaning up and rename {result}")
                 remove_dir(out.absolute())
-                out = Path(shutil.move(result.absolute(), out.absolute()))
+                out = Path(shutil.copy(result.absolute(), out.absolute()))
+                remove_dir(result.absolute())
             else:
                 log.debug(f"out is writeable object {out}, write to it")
                 with result.open("rb") as r:
