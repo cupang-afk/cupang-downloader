@@ -23,6 +23,36 @@ def read_in_chunk(o: IO[bytes], chunk_size: int = 8192):
         yield chunk
 
 
+def safe_delete(path: Path, max_retries: int = 10):
+    """
+    Safely delete a file or directory with multiple retry attempts.
+
+    Args:
+        path (str or Path): Path to file or directory to delete
+        max_retries (int): Maximum number of retry attempts
+
+    Raises:
+        RuntimeError: If deletion fails after all retry attempts
+    """
+    if not path.exists():
+        return
+
+    for attempt in range(max_retries):
+        try:
+            if path.is_file():
+                path.unlink(missing_ok=True)
+            else:
+                shutil.rmtree(path.absolute())
+            return  # Successful deletion
+
+        except (PermissionError, OSError) as e:
+            if attempt == max_retries - 1:
+                raise RuntimeError(f"Failed to delete {path} after {max_retries} attempts") from e
+
+            wait_time = 1 * (1.3**attempt) * (random.random() * 0.1)
+            time.sleep(wait_time)
+
+
 def remove_dir(path: Path, tries: int = 15):
     if not path.exists():
         return
@@ -35,11 +65,7 @@ def remove_dir(path: Path, tries: int = 15):
     # ensure dir are deleted
     for _ in range(tries):
         try:
-            if path.is_dir():
-                shutil.rmtree(path.absolute())
-            else:
-                path.unlink()
-            break
+            safe_delete(path)
         except Exception:
             pass
         time.sleep(1)
@@ -106,10 +132,7 @@ def temppath(
         yield tmp
     finally:
         if delete:
-            if tmp.is_file():
-                tmp.unlink(missing_ok=True)
-            else:
-                shutil.rmtree(tmp.absolute(), ignore_errors=True)
+            safe_delete(tmp)
 
 
 @contextmanager
